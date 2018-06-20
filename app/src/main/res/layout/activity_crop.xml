@@ -14,7 +14,7 @@
         android:id="@+id/cropImageView"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         custom:scv_crop_mode="fit_image"
         custom:scv_handle_color="@color/colorAccent"
         custom:scv_guide_color="@color/colorAccent"
