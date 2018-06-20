@@ -1,9 +1,10 @@
 package com.example.akm.intent;
 
-import android.Manifest;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -14,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     Button b;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int MY_PERMISSIONS_REQUEST_CAMERA=0;
     public static final int RequestPermissionCode = 7;
 
 
@@ -57,13 +56,9 @@ dispatchTakePictureIntent();
             Toast.makeText(MainActivity.this, "All Permissions Granted Successfully", Toast.LENGTH_LONG).show();
         }
 
-        // If, If permission is not enabled then else condition will execute.
         else {
-
-            //Calling method to enable permission.
             RequestMultiplePermission();
-
-        }
+            }
 
     }
 

@@ -8,10 +8,24 @@
     android:orientation="vertical"
     >
 
-    <com.yashoid.instacropper.InstaCropperView
-        android:id="@+id/instacropper"
-        android:layout_width="wrap_content"
+
+    <com.isseiaoki.simplecropview.CropImageView
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cropImageView"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        custom:scv_crop_mode="fit_image"
+        custom:scv_handle_color="@color/colorAccent"
+        custom:scv_guide_color="@color/colorAccent"
+        custom:scv_frame_color="@color/colorAccent"
+        custom:scv_handle_size="14dp"
+        custom:scv_touch_padding="8dp"
+        custom:scv_handle_show_mode="show_always"
+        custom:scv_guide_show_mode="show_always"
+        custom:scv_min_frame_size="50dp"
+        custom:scv_frame_stroke_weight="1dp"
+        custom:scv_guide_stroke_weight="1dp"
         android:layout_marginTop="30dp"
         />
 
@@ -20,16 +34,13 @@
         android:layout_height="wrap_content"
         android:text="Crop"
         android:id="@+id/btn_crop"
-
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
+        android:background="@drawable/gradient_background"
 
         />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/crop_image_view"
-        android:layout_marginTop="30dp"
-        />
+
+
 
 </LinearLayout>

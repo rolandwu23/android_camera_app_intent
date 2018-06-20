@@ -1,9 +1,9 @@
 package com.example.akm.intent;
 
-import android.Manifest;
+
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,8 +12,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,8 +21,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+
+
 
 
 public class DrawActivity extends AppCompatActivity implements View.OnTouchListener {
@@ -33,6 +33,7 @@ public class DrawActivity extends AppCompatActivity implements View.OnTouchListe
     ImageView i;
     Bitmap bmp;
     Bitmap alteredBitmap;
+    byte[] byteArr;
     Canvas canvas;
     Paint paint;
     Matrix matrix;
@@ -40,7 +41,6 @@ public class DrawActivity extends AppCompatActivity implements View.OnTouchListe
     float downy = 0;
     float upx = 0;
     float upy = 0;
-    static final int MY_PERMISSIONS_REQUEST_STORAGE=2;
 
 
     @Override
@@ -49,11 +49,10 @@ public class DrawActivity extends AppCompatActivity implements View.OnTouchListe
         setContentView(R.layout.activity_draw);
 
         i = (ImageView) findViewById(R.id.image_view);
-        btn=(Button)findViewById(R.id.button_save);
+        btn=(Button) findViewById(R.id.button_save);
 
-        byte[] byteArray = getIntent().getByteArrayExtra("image");
-        bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        //i.setImageBitmap(bmp);
+        final byte[][] byteArray = {getIntent().getByteArrayExtra("image")};
+        bmp = BitmapFactory.decodeByteArray(byteArray[0], 0, byteArray[0].length);
 
         alteredBitmap = Bitmap.createBitmap(bmp.getWidth(), bmp
                 .getHeight(), bmp.getConfig());
@@ -67,6 +66,7 @@ public class DrawActivity extends AppCompatActivity implements View.OnTouchListe
         i.setImageBitmap(alteredBitmap);
         i.setOnTouchListener(this);
 
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,9 +79,21 @@ public class DrawActivity extends AppCompatActivity implements View.OnTouchListe
                     Uri imageFileUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
                     try {
                         OutputStream imageFileOS = getContentResolver().openOutputStream(imageFileUri);
-                        alteredBitmap.compress(Bitmap.CompressFormat.JPEG, 90, imageFileOS);
+                        alteredBitmap.compress(Bitmap.CompressFormat.JPEG, 100, imageFileOS);
                         Toast t = Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_SHORT);
                         t.show();
+
+
+
+                        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+                        alteredBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
+                        byteArr =bStream.toByteArray();
+
+                        Context context=DrawActivity.this;
+                        Class destinationActivity=ShowActivity.class;
+                        Intent startShowActivityIntent=new Intent(context,destinationActivity);
+                        startShowActivityIntent.putExtra("show", byteArr);
+                        startActivity(startShowActivityIntent);
 
                     } catch (Exception e) {
                         Log.v("EXCEPTION", e.getMessage());

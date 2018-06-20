@@ -35,7 +35,8 @@
         </provider>
 
         <activity android:name=".CropActivity" />
-        <activity android:name=".DrawActivity"></activity>
+        <activity android:name=".DrawActivity" />
+        <activity android:name=".ShowActivity"></activity>
     </application>
 
 </manifest>
